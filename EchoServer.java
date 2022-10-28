@@ -72,6 +72,25 @@ public class EchoServer extends AbstractServer
       ("Server has stopped listening for connections.");
   }
   
+  /**
+   * Implemented hook method called each time a new client connection is
+   * accepted. 
+   * 
+   * @param client the connection connected to the client.
+   */
+  protected void clientConnected(ConnectionToClient client) {
+	  System.out.println("Client has connected to server");
+  }
+
+  /**
+   * Implemented hook method called each time a client disconnects.
+   *
+   * @param client the connection with the client.
+   */
+  synchronized protected void clientDisconnected(ConnectionToClient client) {
+	  System.out.println("Client has disconnected from server");
+  }
+  
   //Class methods ***************************************************
   
   /**
@@ -104,6 +123,7 @@ public class EchoServer extends AbstractServer
     {
       System.out.println("ERROR - Could not listen for clients!");
     }
+  
   }
 }
 //End of EchoServer class

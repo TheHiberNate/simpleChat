@@ -68,7 +68,12 @@ public class ChatClient extends AbstractClient
   {
     try
     {
-      sendToServer(message);
+    	if (message.startsWith("#")) {
+    		clientCommands(message);
+    	}
+    	else {
+    		sendToServer(message);
+    	}
     }
     catch(IOException e)
     {
@@ -79,6 +84,88 @@ public class ChatClient extends AbstractClient
   }
   
   /**
+   * Method responsible of handling commands specified by the user
+   * @param command
+   */
+  private void clientCommands(String command) {
+	  if (command.equals("#quit")) {
+		  clientUI.display("Client will quit");
+		  quit();
+	  } 
+
+	  else if (command.equals("#logoff")) {
+		  clientUI.display("Client will log off");
+		  try {
+			if (!this.isConnected()) {
+				clientUI.display("Client is already logged off");
+			}
+			else {
+				closeConnection();
+			}
+		} catch (IOException e) {
+			clientUI.display("Error closing connection");
+		}  
+	  } 
+
+	  else if (command.startsWith("#sethost")) {
+		  clientUI.display("Client is changing host name");
+		  if (this.isConnected()) {
+			 clientUI.display("Currently connected, cannot change host");
+		  }
+		  else {
+			  String hostName = "";
+			  for (int i = 9; i < command.length(); i++) {
+				  hostName += command.charAt(i);
+			  }
+			  setHost(hostName);
+			  clientUI.display("Host has been set to " + hostName);
+		  }
+	  }
+
+	  else if (command.startsWith("#setport")) {
+		  clientUI.display("Client is changing port number");
+		  if (this.isConnected()) {
+				 clientUI.display("Currently connected, cannot change port number");
+			  }
+		  else {
+			  String portNum = "";
+			  for (int i = 9; i < command.length(); i++) {
+				  portNum += command.charAt(i);
+			  }
+			  setPort(Integer.parseInt(portNum));
+			  clientUI.display("Port has been set to " + portNum);
+		  }
+	 }
+
+	  else if (command.equals("#login")) {
+		  clientUI.display("Client will log in");
+		  try {
+			  if (this.isConnected()) {
+				clientUI.display("Client is already logged in");
+			  }
+			  else {
+				  openConnection();
+			  }
+		  } catch (IOException e) {
+			  clientUI.display("Error opening connection");
+		  }  
+	  }
+
+	  else if (command.equals("#gethost")) {
+		  clientUI.display("Host is: " + getHost());
+	  }
+
+	  else if (command.equals("#getport")) {
+		  clientUI.display("Port Number is: " + getPort());
+	  }
+
+	  else {
+		  clientUI.display(command + " is not a valid command"); 
+	  }
+  }
+
+
+/**
    * This method terminates the client.
    */
   public void quit()
