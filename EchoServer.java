@@ -116,7 +116,7 @@ public class EchoServer extends AbstractServer
 		  }
 	  }
 	  
-	  else if (command.equals("start")) {
+	  else if (command.equals("#start")) {
 		  if (isListening()) {
 			  serverUI.display("Server is already listening to connections");
 		  }
@@ -128,6 +128,10 @@ public class EchoServer extends AbstractServer
 				serverUI.display("Could not listen for connections");
 			} 
 		  }
+	  }
+	  
+	  else if (command.equals("#getport")) {
+		  serverUI.display("Port Number is: " + getPort());
 	  }
   }
   

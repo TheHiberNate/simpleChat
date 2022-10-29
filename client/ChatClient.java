@@ -166,7 +166,7 @@ public class ChatClient extends AbstractClient
 	  }
 
 	  else {
-		  clientUI.display(command + " is not a valid command"); 
+		  clientUI.display(command + " is not a valid command!"); 
 	  }
   }
 
