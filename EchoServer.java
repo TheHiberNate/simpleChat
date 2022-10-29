@@ -59,13 +59,13 @@ public class EchoServer extends AbstractServer
     String message = (String) msg;
     if (!message.startsWith("#")) {
     	String name = (String) client.getInfo(key);
-        this.sendToAllClients(name + msg);
+        this.sendToAllClients(name + "> " + msg);
         System.out.println("Message received: " + msg + " from " + client);
     }
     else {
     	System.out.println("New login: " + msg + " from " + client);
     	String username = "";
-    	for (int i = 8; i < message.length(); i++) {
+    	for (int i = 7; i < message.length(); i++) {
     		username += message.charAt(i);
     	}
     	client.setInfo(key, username);
