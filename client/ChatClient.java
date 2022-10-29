@@ -132,8 +132,14 @@ public class ChatClient extends AbstractClient
 			  for (int i = 9; i < command.length(); i++) {
 				  portNum += command.charAt(i);
 			  }
-			  setPort(Integer.parseInt(portNum));
-			  clientUI.display("Port has been set to " + portNum);
+			  try {
+				  setPort(Integer.parseInt(portNum));
+				  clientUI.display("Port has been set to " + portNum);
+			  }
+			  catch (NumberFormatException nfe) {
+				  clientUI.display("Invalid number");
+			  }
+			  
 		  }
 	 }
 

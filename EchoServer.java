@@ -3,6 +3,8 @@
 // license found at www.lloseng.com 
 
 
+import java.io.IOException;
+
 import common.ChatIF;
 import ocsf.server.*;
 
@@ -26,7 +28,7 @@ public class EchoServer extends AbstractServer
   final public static int DEFAULT_PORT = 5555;
   
   ChatIF serverUI;
-  
+    
   //Constructors ****************************************************
   
   /**
@@ -61,11 +63,86 @@ public class EchoServer extends AbstractServer
    * @param message
    */
   public void handleMessageFromServerUI (String message) {
-	  sendToAllClients("SERVER MSG> " + message);
-	  serverUI.display(message);
+	  if (message.startsWith("#")) {
+		  serverCommands(message);
+	  }
+	  else {
+		  sendToAllClients("SERVER MSG> " + message);
+		  serverUI.display(message); 
+	  }
   }
     
   /**
+   * Method responsible of handling commands specified by the server user
+   * @param message
+   */
+  private void serverCommands(String command) {
+	  if (command.equals("#quit")) {
+		  serverUI.display("Server will shut down");
+		  quit();
+	  }
+	  
+	  else if (command.equals("#stop")) {
+		  serverUI.display("Server will stop listening");
+		  stopListening();
+	  }
+	  
+	  else if (command.equals("#close")) {
+		  serverUI.display("Server will stop listening and close all connections");
+		  try {
+			close();
+		  } catch (IOException e) {
+			serverUI.display("Error closing server");
+		  }
+	  }
+	  
+	  else if (command.startsWith("#setport")) {
+		  serverUI.display("Changing port number");
+		  if (isListening()) {
+			  serverUI.display("Server is running, cannot change port");
+		  }
+		  else {
+			  String portNum = "";
+			  for (int i = 9; i < command.length(); i++) {
+				  portNum += command.charAt(i);
+			  }
+			  try {
+			  setPort(Integer.parseInt(portNum));
+			  serverUI.display("Port has been set to " + portNum);
+			  } 
+			  catch (NumberFormatException nef) {
+				  serverUI.display("Invalid valid number");
+			  }
+		  }
+	  }
+	  
+	  else if (command.equals("start")) {
+		  if (isListening()) {
+			  serverUI.display("Server is already listening to connections");
+		  }
+		  else {
+			  try {
+				listen();
+				serverUI.display("Server is now listening to connections");
+			} catch (IOException e) {
+				serverUI.display("Could not listen for connections");
+			} 
+		  }
+	  }
+  }
+  
+  /**
+   * Terminates server
+   */
+  private void quit() {
+	  try {
+		  close();
+	  } catch (IOException e) {}
+	  System.exit(0);
+  }
+
+
+/**
    * This method overrides the one in the superclass.  Called
    * when the server starts listening for connections.
    */

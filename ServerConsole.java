@@ -2,13 +2,29 @@ import java.util.Scanner;
 
 import common.ChatIF;
 
+/**
+ * Class responsible of the server console
+ * @author Nathan Gawargy (300232268)
+ *
+ */
 public class ServerConsole implements ChatIF{
 	
+	//Class variables *************************************************
+	/**
+	* The default port to listen on.
+	*/
+	final public static int DEFAULT_PORT = 5555;
+
+	//Instance variables *************************************************
 	EchoServer server;
 	Scanner fromConsole;
 	
-	final public static int DEFAULT_PORT = 5555;
-	
+	/**
+	 * Constructs an instance of EchoServer with a serverUI.
+	 * Starts listening for connections.
+	 * 
+	 * @param port
+	 */
 	public ServerConsole (int port) {
 		server = new EchoServer(port, this);
 	    try 
@@ -22,11 +38,21 @@ public class ServerConsole implements ChatIF{
 		fromConsole = new Scanner(System.in);
 	}
 	
+	//Instance Methods *************************************************
+	/**
+	 * Method to display messages on server console
+	 * 
+	 * @param message
+	 */
 	@Override
 	public void display(String message) {
 		System.out.println("> " + message);
 	}
 	
+	/**
+	 * Method responsible of receiving the messages typed on the server console.
+	 * Calls handleMessageFromServerUI to know what to do with the message.
+	 */
 	public void accept() {
 		try {
 			String message;
@@ -41,7 +67,6 @@ public class ServerConsole implements ChatIF{
 	}
 	
 	 //Class methods ***************************************************
-	  
 	  /**
 	   * This method is responsible for the creation of 
 	   * the server instance (there is no UI in this phase).
@@ -64,8 +89,5 @@ public class ServerConsole implements ChatIF{
 		
 	    ServerConsole sv = new ServerConsole(port);
 	    sv.accept();
-	    
-
-	  
 	}
 }
