@@ -159,7 +159,7 @@ public class ChatClient extends AbstractClient
 		  }
 	 }
 
-	  else if (command.equals("#login")) {
+	  else if (command.startsWith("#login")) {
 		  clientUI.display("Client will log in");
 		  try {
 			  if (this.isConnected()) {
@@ -224,6 +224,7 @@ public class ChatClient extends AbstractClient
 	protected void connectionEstablished() {
 		try {
 			sendToServer("#login " + loginID);
+			clientUI.display("#login " + loginID);
 		} catch (IOException e) {
 			clientUI.display("Error client login");
 		}

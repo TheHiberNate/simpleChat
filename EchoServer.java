@@ -62,6 +62,16 @@ public class EchoServer extends AbstractServer
         this.sendToAllClients(name + "> " + msg);
         System.out.println("Message received: " + msg + " from " + client);
     }
+    
+    else if (message.equals("#login")) {
+    	try {
+			client.sendToClient("Command #login is not authorized");
+			client.close();
+		} catch (IOException e) {
+			serverUI.display("Error sending message to client");
+		}
+    }
+    
     else {
     	System.out.println("New login: " + msg + " from " + client);
     	String username = "";
