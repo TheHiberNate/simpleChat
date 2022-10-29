@@ -3,6 +3,7 @@
 // license found at www.lloseng.com 
 
 
+import common.ChatIF;
 import ocsf.server.*;
 
 /**
@@ -24,6 +25,8 @@ public class EchoServer extends AbstractServer
    */
   final public static int DEFAULT_PORT = 5555;
   
+  ChatIF serverUI;
+  
   //Constructors ****************************************************
   
   /**
@@ -31,9 +34,10 @@ public class EchoServer extends AbstractServer
    *
    * @param port The port number to connect on.
    */
-  public EchoServer(int port) 
+  public EchoServer(int port, ChatIF serverUI) 
   {
     super(port);
+    this.serverUI = serverUI;
   }
 
   
@@ -51,6 +55,15 @@ public class EchoServer extends AbstractServer
     System.out.println("Message received: " + msg + " from " + client);
     this.sendToAllClients(msg);
   }
+  
+  /**
+   * This method handles all data coming from the server console
+   * @param message
+   */
+  public void handleMessageFromServerUI (String message) {
+	  sendToAllClients("SERVER MSG> " + message);
+	  serverUI.display(message);
+  }
     
   /**
    * This method overrides the one in the superclass.  Called
@@ -58,8 +71,7 @@ public class EchoServer extends AbstractServer
    */
   protected void serverStarted()
   {
-    System.out.println
-      ("Server listening for connections on port " + getPort());
+    serverUI.display("Server listening for connections on port " + getPort());
   }
   
   /**
@@ -68,8 +80,7 @@ public class EchoServer extends AbstractServer
    */
   protected void serverStopped()
   {
-    System.out.println
-      ("Server has stopped listening for connections.");
+	 serverUI.display("Server has stopped listening for connections.");
   }
   
   /**
@@ -78,8 +89,9 @@ public class EchoServer extends AbstractServer
    * 
    * @param client the connection connected to the client.
    */
+  @Override
   protected void clientConnected(ConnectionToClient client) {
-	  System.out.println("Client has connected to server");
+	  serverUI.display("Client has connected to server");
   }
 
   /**
@@ -87,43 +99,12 @@ public class EchoServer extends AbstractServer
    *
    * @param client the connection with the client.
    */
+  @Override
   synchronized protected void clientDisconnected(ConnectionToClient client) {
-	  System.out.println("Client has disconnected from server");
+	  serverUI.display("Client has disconnected from server");
   }
   
-  //Class methods ***************************************************
-  
-  /**
-   * This method is responsible for the creation of 
-   * the server instance (there is no UI in this phase).
-   *
-   * @param args[0] The port number to listen on.  Defaults to 5555 
-   *          if no argument is entered.
-   */
-  public static void main(String[] args) 
-  {
-    int port = 0; //Port to listen on
-
-    try
-    {
-      port = Integer.parseInt(args[0]); //Get port from command line
-    }
-    catch(Throwable t)
-    {
-      port = DEFAULT_PORT; //Set port to 5555
-    }
-	
-    EchoServer sv = new EchoServer(port);
-    
-    try 
-    {
-      sv.listen(); //Start listening for connections
-    } 
-    catch (Exception ex) 
-    {
-      System.out.println("ERROR - Could not listen for clients!");
-    }
-  
-  }
 }
+  
+
 //End of EchoServer class
