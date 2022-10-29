@@ -25,7 +25,12 @@ public class ChatClient extends AbstractClient
    * The interface type variable.  It allows the implementation of 
    * the display method in the client.
    */
-  ChatIF clientUI; 
+  ChatIF clientUI;
+  
+  /**
+   * Client loginID
+   */
+  private String loginID;
 
   
   //Constructors ****************************************************
@@ -48,7 +53,18 @@ public class ChatClient extends AbstractClient
 
   
   //Instance methods ************************************************
-    
+  
+  /**
+   * Getter & Setter methods for private instance variable 
+   */
+  public String getLoginID() {
+	  return loginID;
+  }
+  
+  public void setLoginID(String loginID) {
+	  this.loginID = loginID;
+  }
+  
   /**
    * This method handles all data that comes in from the server.
    *
@@ -200,6 +216,17 @@ public class ChatClient extends AbstractClient
 	protected void connectionException(Exception exception) {
 		clientUI.display("Server is closed");
 		System.exit(0);
+	}
+	
+	/**
+	 * Implemented hook method called after a connection has been established. 
+	 */
+	protected void connectionEstablished() {
+		try {
+			sendToServer("#login " + loginID);
+		} catch (IOException e) {
+			clientUI.display("Error client login");
+		}
 	}
 }
 //End of ChatClient class

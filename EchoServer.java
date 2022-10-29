@@ -133,6 +133,10 @@ public class EchoServer extends AbstractServer
 	  else if (command.equals("#getport")) {
 		  serverUI.display("Port Number is: " + getPort());
 	  }
+	  
+	  else {
+		 serverUI.display(command + " is not a valid command!");
+	  }
   }
   
   /**
