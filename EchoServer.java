@@ -213,6 +213,20 @@ public class EchoServer extends AbstractServer
 	  serverUI.display("Client has disconnected from server");
   }
   
+  /**
+   * Implemented hook method called each time an exception is thrown in a
+   * ConnectionToClient thread.
+   *
+   * @param client the client that raised the exception.
+   * @param Throwable the exception thrown.
+   */
+  @Override
+  synchronized protected void clientException(
+		    ConnectionToClient client, Throwable exception) {
+	  serverUI.display("Client has disconnected from server");
+  }
+  
+  
 }
   
 
