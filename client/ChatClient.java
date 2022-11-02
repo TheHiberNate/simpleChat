@@ -225,6 +225,7 @@ public class ChatClient extends AbstractClient
 		try {
 			sendToServer("#login " + loginID);
 			clientUI.display("#login " + loginID);
+			clientUI.display("Welcome! You can start chatting!");
 		} catch (IOException e) {
 			clientUI.display("Error client login");
 		}
