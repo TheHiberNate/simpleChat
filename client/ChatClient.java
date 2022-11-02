@@ -229,5 +229,6 @@ public class ChatClient extends AbstractClient
 			clientUI.display("Error client login");
 		}
 	}
+	
 }
 //End of ChatClient class
