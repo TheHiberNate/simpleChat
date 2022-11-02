@@ -164,6 +164,7 @@ public class ChatClient extends AbstractClient
 		  try {
 			  if (this.isConnected()) {
 				clientUI.display("Client is already logged in");
+				sendToServer("#login");
 			  }
 			  else {
 				  openConnection();
