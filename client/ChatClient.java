@@ -215,7 +215,7 @@ public class ChatClient extends AbstractClient
 	 * @param exception
 	 */
 	protected void connectionException(Exception exception) {
-		clientUI.display("Server is closed");
+		clientUI.display("Server has shut down");
 		System.exit(0);
 	}
 	
@@ -225,7 +225,7 @@ public class ChatClient extends AbstractClient
 	protected void connectionEstablished() {
 		try {
 			sendToServer("#login " + loginID);
-			clientUI.display("#login " + loginID);
+			clientUI.display(loginID + " has logged on.");
 			clientUI.display("Welcome! You can start chatting!");
 		} catch (IOException e) {
 			clientUI.display("Error client login");

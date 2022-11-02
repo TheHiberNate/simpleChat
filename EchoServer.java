@@ -59,7 +59,7 @@ public class EchoServer extends AbstractServer
     String message = (String) msg;
     if (!message.startsWith("#")) {
     	String name = (String) client.getInfo(key);
-        this.sendToAllClients(name + "> " + msg);
+        this.sendToAllClients(name + " > " + msg);
         System.out.println("Message received: " + msg + " from " + name);
     }
     
@@ -108,12 +108,12 @@ public class EchoServer extends AbstractServer
 	  }
 	  
 	  else if (command.equals("#stop")) {
-		  serverUI.display("Server will stop listening");
+//		  serverUI.display("Server will stop listening");
 		  stopListening();
 	  }
 	  
 	  else if (command.equals("#close")) {
-		  serverUI.display("Server will stop listening and close all connections");
+		  serverUI.display("Server will shut down");
 		  try {
 			close();
 		  } catch (IOException e) {
