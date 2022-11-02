@@ -138,7 +138,7 @@ public class ClientConsole implements ChatIF
     		port = 5555;
     	}
     	else {
-        	System.out.println("MUST HAVE A LOGIN ID. Connection will close");
+        	System.out.println("MUST HAVE A LOGIN ID. Connection aborted");
     	}
     }
     catch(NumberFormatException nfe)

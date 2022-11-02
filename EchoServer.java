@@ -60,7 +60,7 @@ public class EchoServer extends AbstractServer
     if (!message.startsWith("#")) {
     	String name = (String) client.getInfo(key);
         this.sendToAllClients(name + "> " + msg);
-        System.out.println("Message received: " + msg + " from " + client);
+        System.out.println("Message received: " + msg + " from " + name);
     }
     
     else if (message.equals("#login")) {
@@ -73,11 +73,12 @@ public class EchoServer extends AbstractServer
     }
     
     else {
-    	System.out.println("New login: " + msg + " from " + client);
     	String username = "";
+    	System.out.println("Message received: " + msg + " from " + client);
     	for (int i = 7; i < message.length(); i++) {
     		username += message.charAt(i);
     	}
+    	System.out.println(username + " has logged on.");
     	client.setInfo(key, username);
     }
   }
